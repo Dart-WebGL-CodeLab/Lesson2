@@ -1,0 +1,36 @@
+body {
+  background-color:#F8F8F8;
+  padding:10px;
+  font-family:'Open Sans', sans-serif;
+  font-size:14px;
+  font-weight:normal;
+  line-height:1.2em;
+}
+
+#wrap {
+  position:relative;
+}
+
+#layer0 {
+  z-index:0;
+}
+
+#layer1 {
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+}
+
+#frame_counter {
+  background-color:#F8F8F8;
+  border:solid 2px #070707;
+  border-radius:4px;
+  width:100px;
+  height:50px;
+}
+
+#webgl_host {
+  width:800px;
+  height:600px;
+}
