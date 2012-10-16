@@ -21,6 +21,8 @@
 
 /// The [FrameCounter] associated with the application
 FrameCounter _counter;
+/// The [TextureDialog] associated with the application
+
 
 /**
  * Update function for the application.
@@ -37,13 +39,22 @@ bool _onUpdate(int time)
   window.requestAnimationFrame(_onUpdate);
 }
 
+void _openTextureDialog()
+{
+
+}
+
 /**
  * Main entrypoint for every Dart application.
  */
 void main()
 {
+  // Initialize the WebGL side
   Game.onInitialize();
-  _counter = new FrameCounter('#frame_counter');//, 600, 300, 120);
+  _counter = new FrameCounter('#frame_counter');
+
+  // Initialize the UI side
+
 
   // Start the animation loop
   window.requestAnimationFrame(_onUpdate);

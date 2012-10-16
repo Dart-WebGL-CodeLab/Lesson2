@@ -4,11 +4,22 @@ body {
   font-family:'Open Sans', sans-serif;
   font-size:14px;
   font-weight:normal;
-  line-height:1.2em;
 }
+
+#page {
+  width:1085px;
+  margin:0px auto;
+}
+
+/**
+ * WebGL host styling
+ */
 
 #wrap {
   position:relative;
+  float:left;
+  margin-top:25px;
+  margin-right:25px;
 }
 
 #layer0 {
@@ -33,4 +44,30 @@ body {
 #webgl_host {
   width:800px;
   height:600px;
+}
+
+/**
+ * UI styling
+ */
+
+#ui {
+  width:260px;
+  float:left;
+}
+
+h2 {
+  font-family:'Montserrat', sans-serif;
+  margin:0px;
+}
+
+img {
+  border:dashed 2px black;
+  border-radius:4px;
+}
+
+.button {
+  border:solid 2px blue;
+  width:160px;
+  text-align:center;
+  margin:0px auto;
 }
