@@ -60,7 +60,7 @@ class Game
   Float32Array _viewProjectitonMatrixArray;
 
   //---------------------------------------------------------------------
-  // Mesh variables
+  // Buffer variables
   //---------------------------------------------------------------------
 
   /**
@@ -84,6 +84,8 @@ class Game
   int _meshIndexBuffer;
   /// The number of indices in the buffer
   int _meshIndexCount;
+  /// Handle to the texture to use.
+  int _texture;
 
   //---------------------------------------------------------------------
   // Shader variables
@@ -128,13 +130,6 @@ class Game
   int _samplerState;
 
   //---------------------------------------------------------------------
-  // Texture variables
-  //---------------------------------------------------------------------
-
-  /// Handle to the texture to use.
-  int _texture;
-
-  //---------------------------------------------------------------------
   // Construction
   //---------------------------------------------------------------------
 
@@ -173,8 +168,8 @@ class Game
     var viewportProperties = {
       'x': 0,
       'y': 0,
-      'width': 800,
-      'height': 600
+      'width': canvas.width,
+      'height': canvas.height
     } ;
 
     // Create the viewport
@@ -190,7 +185,7 @@ class Game
     _createTransforms();
     _createShaders();
     _createState();
-    _createMesh();
+    _createBuffers();
   }
 
   /**
@@ -198,23 +193,25 @@ class Game
    */
   void _createTransforms()
   {
+    // Compute the aspect ratio
+    Viewport viewport = _graphicsDevice.getDeviceChild(_viewport);
+    double aspectRatio = viewport.width / viewport.height;
+
     // Create the view-projection matrix
     mat4 viewProjectionMatrix = makePerspective(
       0.785398163, // Field of view in radians (45 degrees)
-      800 / 600,   // Aspect ratio (canvas.width / canvas.height)
+      aspectRatio, // Aspect ratio
       0.01,        // Near plane
       100.0        // Far plane
     );
 
     mat4 viewMatrix = makeLookAt(
-      new vec3.raw(0.0, 0.0, -5.0), // Eye position
+      new vec3.raw(0.0, 0.0, -2.5), // Eye position
       new vec3.raw(0.0, 0.0,  0.0), // Look at
       new vec3.raw(0.0, 1.0,  0.0)  // Up direction
     );
 
     viewProjectionMatrix.multiply(viewMatrix);
-
-    print(viewProjectionMatrix);
 
     _viewProjectitonMatrixArray = new Float32Array(16);
     viewProjectionMatrix.copyIntoArray(_viewProjectitonMatrixArray);
@@ -299,9 +296,9 @@ class Game
   }
 
   /**
-   * Create all the mesh data.
+   * Create all the buffer data.
    */
-  void _createMesh()
+  void _createBuffers()
   {
     // The vertex and index buffer will not be modified each frame.
     // So mark it as static. This does not mean the contents can't be
@@ -319,8 +316,6 @@ class Game
 
     // Create the texture
     Map textureUsage = {
-      'width': 256,
-      'height': 256,
       'textureFormat': Texture.TextureFormatRGB,
       'pixelFormat': Texture.PixelFormatUnsignedByte
     };
@@ -379,10 +374,6 @@ class Game
 
     _modelMatrix.copyIntoArray(_modelMatrixArray);
 
-    //vec3 translation = _modelMatrix.getTranslation();
-    //print('Translation ${translation.x} ${translation.y} ${translation.z}');
-
-
     for (int i = 0; i < 3; ++i)
     {
       // Add a random difference
@@ -432,6 +423,9 @@ class Game
   //---------------------------------------------------------------------
   // Properties
   //---------------------------------------------------------------------
+
+  /// Retrieves the instance of [Game].
+  static get instance() => _gameInstance;
 
   /**
    * Sets the mesh to display.
