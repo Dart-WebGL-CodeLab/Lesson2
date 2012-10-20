@@ -11,6 +11,11 @@ body {
   margin:0px auto;
 }
 
+#clear {
+  clear:both;
+  height:0px;
+}
+
 /**
  * WebGL host styling
  */
@@ -18,7 +23,6 @@ body {
 #wrap {
   position:relative;
   float:left;
-  margin-top:25px;
   margin-right:25px;
 }
 
@@ -57,17 +61,159 @@ body {
 
 h2 {
   font-family:'Montserrat', sans-serif;
-  margin:0px;
+  margin-bottom:10px;
+  border-bottom:solid 1px black;
+}
+
+h3 {
+  font-family:'Montserrat', sans-serif;
+  margin-bottom:10px;
 }
 
 img {
+  display:inline;
+}
+
+#texture {
   border:dashed 2px black;
   border-radius:4px;
 }
 
 .button {
-  border:solid 2px blue;
   width:160px;
   text-align:center;
-  margin:0px auto;
+  margin:5px auto;
+  padding:4px;
+  color:#F8F8F8;
+  background:#008FD2;
+  border:solid 1px #00A4E4;
+  border-radius:4px;
+}
+
+.button:hover {
+  background:#0073CC;
+}
+
+.model_button {
+  display:inline-block;
+  border:dashed 1px black;
+  padding:2px 3px;
+  margin-left:5px;
+  border-radius:4px;
+}
+
+/**
+ * Modal dialog styling
+ */
+
+.modal_dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 99999;
+  opacity:0;
+  transition: opacity 400ms ease-in;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+
+.modalDialog:target {
+  display: block;
+  pointer-events: auto;
+}
+
+.modal_dialog > div {
+  width:869px;
+  height:502px;
+  position:relative;
+  margin:10% auto;
+  background:#F8F8F8;
+  border-radius:5px;
+  z-index: 100000;
+}
+
+#dialog_header {
+  padding:10px 15px;
+  border-bottom:solid 1px black;
+}
+
+#dialog_left {
+  float:left;
+  width:200px;
+}
+
+#dialog_right {
+  float:right;
+  border-left:solid 1px black;
+}
+
+#dialog_content {
+  padding:10px;
+  border-bottom:solid 1px black;
+}
+
+#dialog_buttons {
+  border-top:solid 1px black;
+  padding:10px;
+}
+
+#upload_image_content {
+  border:4px dashed black;
+}
+
+#drop_image {
+  display:table;
+  width:640px;
+  height:360px;
+}
+
+p {
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+}
+
+.dialog_tab {
+  padding:10px 15px;
+}
+
+.selected_tab {
+  padding:10px;
+  border-left:solid 5px black;
+}
+
+.submit_button {
+  display:inline-block;
+  width:80px;
+  text-align:center;
+  padding:4px;
+  color:#F8F8F8;
+  background:#008FD2;
+  border:solid 1px #00A4E4;
+  border-radius:4px;
+}
+
+.submit_button:hover {
+  background:#0073CC;
+}
+
+.cancel_button {
+  display:inline-block;
+  width:80px;
+  text-align:center;
+  padding:4px;
+  border:solid 1px black;
+  border-radius:4px;
+}
+
+.cancel_button:hover {
+  background:#D8D8D8;
+}
+
+.hidden {
+  display:none;
 }

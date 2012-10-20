@@ -12,16 +12,61 @@
       <!-- Canvas holding the WebGL Application -->
       <div id='wrap'>
         <div id='layer0'>
-          <canvas id='webgl_host' width='800' height='600' />
+          <canvas id='webgl_host' width='800' height='600'></canvas>
         </div>
         <div id='layer1'>
-          <canvas id='frame_counter' />
+          <canvas id='frame_counter'></canvas>
         </div>
       </div>
       <div id='ui'>
         <h2>Texture</h2>
-        <img src='web/resources/textures/dart_tex.png' />
+        <div id='texture'>
+          <img src='web/resources/textures/dart_tex.png' alt='texture' />
+        </div>
         <div id='replace' class='button'>Replace Texture</div>
+        <br />
+        <h2>Model</h2>
+        <div id='cube_button' class='model_button'>
+          <img src='web/resources/ui/cube.png' alt='Cube' />
+        </div>
+        <div id='cube_button' class='model_button'>
+          <img src='web/resources/ui/sphere.png' alt='Sphere' />
+        </div>
+        <div id='cube_button' class='model_button'>
+          <img src='web/resources/ui/plane.png' alt='Plane' />
+        </div>
+        <div id='cube_button' class='model_button'>
+          <img src='web/resources/ui/cylinder.png' alt='Cylinder' />
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal dialog for uploading textures -->
+    <div id='texture_dialog' class='modal_dialog'>
+      <div>
+        <div id='dialog_header'>
+          <h3>Change Texture</h3>
+        </div>
+        <div id='dialog_left'>
+          <div id='upload_image' class='dialog_tab selected_tab'>Upload Image</div>
+          <div id='url_image' class='dialog_tab'>From URL</div>
+        </div>
+        <div id='dialog_right'>
+          <div id='dialog_content'>
+            <div id='upload_image_content'>
+              <div id='drop_image'>
+                <p>Drop texture file here</p>
+              </div>
+            </div>
+            <div id='url_image_content'>
+              <div>URLLLLLL</div>
+            </div>
+          </div>
+          <div id='dialog_buttons'>
+            <div id='texture_submit' class='submit_button'>Submit</div>
+            <div id='texture_cancel' class='cancel_button'>Cancel</div>
+          </div>
+        </div>
       </div>
     </div>
 

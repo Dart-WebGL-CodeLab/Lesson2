@@ -7,29 +7,30 @@
 // and imported with the package prefix.
 //---------------------------------------------------------------------
 
-#import('dart:html');
-#import('dart:math');
-#import('package:spectre/spectre.dart');
-#import('package:dartvectormath/vector_math_html.dart');
+import 'dart:html';
+import 'dart:math';
+import 'package:spectre/spectre.dart';
+import 'package:dartvectormath/vector_math_html.dart';
 
 //---------------------------------------------------------------------
 // Source files
 //---------------------------------------------------------------------
 
-#source('application/frame_counter.dart');
-#source('application/game.dart');
+part 'texture_dialog.dart';
+part 'application/frame_counter.dart';
+part 'application/game.dart';
 
 /// The [FrameCounter] associated with the application
 FrameCounter _counter;
 /// The [TextureDialog] associated with the application
-
+TextureDialog _textureDialog;
 
 /**
  * Update function for the application.
  *
  * The current [time] is passed in.
  */
-bool _onUpdate(int time)
+void _onUpdate(int time)
 {
   _counter.update(time);
   Game.onUpdate(time);
@@ -39,9 +40,9 @@ bool _onUpdate(int time)
   window.requestAnimationFrame(_onUpdate);
 }
 
-void _openTextureDialog()
+void _openTextureDialog(_)
 {
-
+  _textureDialog.show();
 }
 
 /**
@@ -54,7 +55,10 @@ void main()
   _counter = new FrameCounter('#frame_counter');
 
   // Initialize the UI side
+  _textureDialog = new TextureDialog();
 
+  DivElement replaceButton = document.query('#replace') as DivElement;
+  replaceButton.on.click.add(_openTextureDialog);
 
   // Start the animation loop
   window.requestAnimationFrame(_onUpdate);
