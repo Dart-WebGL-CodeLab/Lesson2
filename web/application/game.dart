@@ -214,12 +214,13 @@ class Game
 
     viewProjectionMatrix.multiply(viewMatrix);
 
+    print(viewProjectionMatrix);
+
     _viewProjectitonMatrixArray = new Float32Array(16);
     viewProjectionMatrix.copyIntoArray(_viewProjectitonMatrixArray);
 
     // Create the model matrix
     // Center it at 0.0, 0.0, 0.0
-    // This is just the identiry matrix
     _modelMatrix = new mat4.identity();
 
     _modelMatrixArray = new Float32Array(16);
@@ -318,6 +319,8 @@ class Game
 
     // Create the texture
     Map textureUsage = {
+      'width': 256,
+      'height': 256,
       'textureFormat': Texture.TextureFormatRGB,
       'pixelFormat': Texture.PixelFormatUnsignedByte
     };
@@ -369,10 +372,10 @@ class Game
     _lastFrameTime = time;
 
     // Rotate the model
-    _angle += dt * PI;
+    double angle = dt * PI;
 
-    mat4 rotation = new mat4.rotationZ(_angle);
-    _modelMatrix = _modelMatrix * rotation;
+    mat4 rotation = new mat4.rotationX(angle);
+    _modelMatrix.multiply(rotation);
 
     _modelMatrix.copyIntoArray(_modelMatrixArray);
 

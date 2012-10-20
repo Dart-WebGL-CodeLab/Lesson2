@@ -10,7 +10,7 @@
 import 'dart:html';
 import 'dart:math';
 import 'package:spectre/spectre.dart';
-import 'package:dartvectormath/vector_math_html.dart';
+import 'package:vector_math/vector_math_browser.dart';
 
 //---------------------------------------------------------------------
 // Source files
