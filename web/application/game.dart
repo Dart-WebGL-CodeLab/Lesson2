@@ -13,20 +13,9 @@ class Game
   //---------------------------------------------------------------------
 
   /// Spectre graphics device.
-  Device _graphicsDevice;
+  GraphicsDevice _graphicsDevice;
   /// Immediate rendering context.
-  ImmediateContext _context;
-  /**
-   * List containing the rendering commands to run.
-   */
-  List _renderCommands;
-  /**
-   * Rendering command interpreter.
-   *
-   * Spectre creates programs, which contain rendering commands,
-   * that need to be executed to draw the scene.
-   */
-  Interpreter _interpreter;
+  GraphicsContext _context;
   /**
    * Resource handler for the game.
    *
@@ -37,13 +26,17 @@ class Game
   ResourceManager _resourceManager;
   /// Handle to the viewport.
   int _viewport;
+
+  //---------------------------------------------------------------------
+  // Animation variables
+  //---------------------------------------------------------------------
+
   /// Clear color for the rendering.
   vec3 _color;
   /// Direction to modify the color.
   vec3 _direction;
   /// Random number generator
   Random _randomGenerator;
-
   /// The time of the last frame
   int _lastFrameTime;
   /// The angle to rotate by
@@ -53,10 +46,20 @@ class Game
   // Transform variables
   //---------------------------------------------------------------------
 
+  /// Transformation for the mesh.
   mat4 _modelMatrix;
-
+  /// A typed array containing the transformation.
   Float32Array _modelMatrixArray;
-
+  /**
+   * A [Float32Array] containing the view/projection matrix.
+   *
+   * Contains the view, which is generated from the camera's position,
+   * direction, and up vector, and the projection, which is generated
+   * from the view frustum.
+   *
+   * The camera is stationary in this lesson so an associated mat4
+   * is not needed.
+   */
   Float32Array _viewProjectitonMatrixArray;
 
   //---------------------------------------------------------------------
@@ -121,12 +124,13 @@ class Game
   // State variables
   //---------------------------------------------------------------------
 
+  /// Contains blend state for the device.
   int _blendState;
-
+  /// Contains depth state for the device.
   int _depthState;
-
+  /// Contains rasterization state for the device.
   int _rasterizerState;
-
+  /// Contains sampler state for a texture.
   int _samplerState;
 
   //---------------------------------------------------------------------
@@ -151,18 +155,14 @@ class Game
     initSpectre();
 
     // Setup the Spectre device
-    _graphicsDevice = new Device(gl);
-    _context = _graphicsDevice.immediateContext;
+    _graphicsDevice = new GraphicsDevice(gl);
+    _context = _graphicsDevice.context;
 
     // Setup the resource manager
     _resourceManager = new ResourceManager();
 
     String baseUrl = "${window.location.href.substring(0, window.location.href.length - "engine.html".length)}web/resources";
     _resourceManager.setBaseURL(baseUrl);
-
-    // Setup the rendering commands an interpreter
-    _renderCommands = new List();
-    _interpreter = new Interpreter();
 
     // Create the viewport
     var viewportProperties = {
@@ -323,33 +323,6 @@ class Game
     _texture = _graphicsDevice.createTexture2D('Texture', textureUsage);
   }
 
-  /**
-   * Create the rendering commands.
-   *
-   * Rendering commands can be created before the resources are loaded, but
-   * not before the associated handles have been created.
-   */
-  void _createRenderingCommands()
-  {
-    ProgramBuilder builder = new ProgramBuilder();
-
-    builder.setPrimitiveTopology(ImmediateContext.PrimitiveTopologyTriangles);
-    builder.setRasterizerState(_rasterizerState);
-    builder.setDepthState(_depthState);
-    builder.setShaderProgram(_shaderProgram);
-    builder.setUniformMatrix4('objectTransform', _modelMatrixArray);
-    builder.setUniformMatrix4('cameraTransform', _viewProjectitonMatrixArray);
-    builder.setTextures(0, [_texture]);
-    builder.setSamplers(0, [_samplerState]);
-    builder.setInputLayout(_meshInputLayout);
-    builder.setIndexBuffer(_meshIndexBuffer);
-    builder.setVertexBuffers(0, [_meshVertexBuffer]);
-    builder.drawIndexed(_meshIndexCount, 0);
-
-    // Get the commands
-    _renderCommands = builder.ops;
-  }
-
   //---------------------------------------------------------------------
   // Public methods
   //---------------------------------------------------------------------
@@ -411,13 +384,31 @@ class Game
     _context.clearDepthBuffer(1.0);
     _context.reset();
 
+    // Set the viewport
+    _context.setViewport(_viewport);
+
+    // Set associated state
     _context.setBlendState(_blendState);
     _context.setRasterizerState(_rasterizerState);
     _context.setDepthState(_depthState);
-    _context.setViewport(_viewport);
 
-    // Run the render commands
-    _interpreter.run(_renderCommands, _graphicsDevice, _resourceManager, _context);
+    // Set the shader program
+    _context.setShaderProgram(_shaderProgram);
+    _context.setUniformMatrix4('objectTransform', _modelMatrixArray);
+    _context.setUniformMatrix4('cameraTransform', _viewProjectitonMatrixArray);
+
+    // Set the texture
+    _context.setTextures(0, [_texture]);
+    _context.setSamplers(0, [_samplerState]);
+
+    // Set the vertex/index buffers
+    _context.setInputLayout(_meshInputLayout);
+    _context.setVertexBuffers(0, [_meshVertexBuffer]);
+    _context.setIndexBuffer(_meshIndexBuffer);
+
+    // Draw the mesh
+    _context.setPrimitiveTopology(GraphicsContext.PrimitiveTopologyTriangles);
+    _context.drawIndexed(_meshIndexCount, 0);
   }
 
   //---------------------------------------------------------------------
@@ -453,10 +444,6 @@ class Game
       // Update the contents of the buffer
       _context.updateBuffer(_meshVertexBuffer, mesh.vertexArray);
       _context.updateBuffer(_meshIndexBuffer, mesh.indexArray);
-
-      // Recreate the rendering commands
-      // This is because the index count has changed
-      _createRenderingCommands();
     });
 
     _resourceManager.loadResource(meshResource);
