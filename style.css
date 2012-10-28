@@ -77,6 +77,13 @@ img {
 #texture {
   border:dashed 2px black;
   border-radius:4px;
+  width:256px;
+  height:256px;
+}
+
+#texture img {
+  max-width:256px;
+  max-height:256px;
 }
 
 .button {
