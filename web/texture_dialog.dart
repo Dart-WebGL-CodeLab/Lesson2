@@ -156,7 +156,12 @@ class TextureDialog
     if (_fileSystem == null)
     {
       int size = 20 * 1024 * 1024;
-      window.webkitRequestFileSystem(LocalWindow.TEMPORARY, size, _onFileSystemCreated, _onFileSystemError);
+
+      // Request a quota
+      window.webkitStorageInfo.requestQuota(LocalWindow.PERSISTENT, size, (grantedBytes) {
+        // Request the file system
+        window.webkitRequestFileSystem(LocalWindow.TEMPORARY, grantedBytes, _onFileSystemCreated, _onFileSystemError);
+      }, _onQuotaError);
     }
     else
     {
@@ -225,6 +230,11 @@ class TextureDialog
   //---------------------------------------------------------------------
 
   /**
+   * Callback for when a quota error occurs.
+   */
+  void _onQuotaError(DOMException error) { }
+
+  /**
    * Callback for when the file system is created.
    */
   void _onFileSystemCreated(DOMFileSystem fileSystem)
@@ -239,18 +249,18 @@ class TextureDialog
    */
   void _onFileSystemError(FileError error)
   {
-    String messageCode = "";
+    String messageCode = '';
 
     switch (error.code) {
-      case FileError.QUOTA_EXCEEDED_ERR: messageCode = "Quota Exceeded"; break;
-      case FileError.NOT_FOUND_ERR: messageCode = "Not found "; break;
-      case FileError.SECURITY_ERR: messageCode = "Security Error"; break;
-      case FileError.INVALID_MODIFICATION_ERR: messageCode = "Invalid Modificaiton"; break;
-      case FileError.INVALID_STATE_ERR: messageCode = "Invalid State"; break;
-      default: messageCode = "Unknown error"; break;
+      case FileError.QUOTA_EXCEEDED_ERR: messageCode = 'Quota Exceeded'; break;
+      case FileError.NOT_FOUND_ERR: messageCode = 'Not found '; break;
+      case FileError.SECURITY_ERR: messageCode = 'Security Error'; break;
+      case FileError.INVALID_MODIFICATION_ERR: messageCode = 'Invalid Modificaiton'; break;
+      case FileError.INVALID_STATE_ERR: messageCode = 'Invalid State'; break;
+      default: messageCode = 'Unknown error'; break;
     }
 
-    print("Filesystem error: $messageCode");
+    print('Filesystem error: $messageCode');
   }
 
   /**
