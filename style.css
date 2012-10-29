@@ -74,6 +74,10 @@ img {
   display:inline;
 }
 
+input[type=text] {
+  width:609px;
+}
+
 #texture {
   border:dashed 2px black;
   border-radius:4px;
@@ -160,16 +164,21 @@ img {
 
 #dialog_content {
   padding:10px;
+  width:648px;
+  height:364px;
   border-bottom:solid 1px black;
 }
 
 #dialog_buttons {
-  border-top:solid 1px black;
   padding:10px;
 }
 
-#upload_image_content {
+.left_area {
   border:4px dashed black;
+}
+
+.over_area {
+  border:4px dashed #008FD2;
 }
 
 #drop_image {

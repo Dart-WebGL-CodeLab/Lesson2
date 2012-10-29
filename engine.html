@@ -21,7 +21,7 @@
       <div id='ui'>
         <h2>Texture</h2>
         <div id='texture'>
-          <img src='web/resources/textures/dart_tex.png' alt='texture' />
+          <img id='texture_display' src='web/resources/textures/dart_tex.png' alt='texture' />
         </div>
         <div id='replace' class='button'>Replace Texture</div>
         <br />
@@ -29,13 +29,13 @@
         <div id='cube_button' class='model_button'>
           <img src='web/resources/ui/cube.png' alt='Cube' />
         </div>
-        <div id='cube_button' class='model_button'>
+        <div id='sphere_button' class='model_button'>
           <img src='web/resources/ui/sphere.png' alt='Sphere' />
         </div>
-        <div id='cube_button' class='model_button'>
+        <div id='plane_button' class='model_button'>
           <img src='web/resources/ui/plane.png' alt='Plane' />
         </div>
-        <div id='cube_button' class='model_button'>
+        <div id='cylinder_button' class='model_button'>
           <img src='web/resources/ui/cylinder.png' alt='Cylinder' />
         </div>
       </div>
@@ -53,13 +53,19 @@
         </div>
         <div id='dialog_right'>
           <div id='dialog_content'>
-            <div id='upload_image_content'>
+            <div id='upload_image_content' class='left_area'>
               <div id='drop_image'>
                 <p>Drop texture file here</p>
               </div>
             </div>
             <div id='url_image_content'>
-              <div>URLLLLLL</div>
+              <div>URL: <input type="text" id='url' /></div>
+              <div>
+                <br />
+                Only works if --disable-web-security is passed in and the texture is a power of 2<br /><br />
+                For Dartium goto Manage Launches and put --disable-web-security into the arguments box.<br /><br />
+                If there was a server involved the image should be downloaded and placed somehwere accessible.
+              </div>
             </div>
           </div>
           <div id='dialog_buttons'>

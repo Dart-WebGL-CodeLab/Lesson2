@@ -426,7 +426,6 @@ class Game
     int meshResource = _resourceManager.registerResource(value);
 
     _resourceManager.addEventCallback(meshResource, ResourceEvents.TypeUpdate, (type, resource) {
-      print('Mesh loaded');
       MeshResource mesh = resource;
 
       // Get the description of the layout
