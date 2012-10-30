@@ -30,7 +30,7 @@ TextureDialog _textureDialog;
  *
  * The current [time] is passed in.
  */
-void _onUpdate(int time)
+void _onUpdate(double time)
 {
   _counter.update(time);
   Game.onUpdate(time);

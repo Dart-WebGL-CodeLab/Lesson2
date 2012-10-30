@@ -8,7 +8,7 @@ class FrameCounter
   // Class constants
   //---------------------------------------------------------------------
 
-  static const int _msPerSecond = 1000;
+  static const double _msPerSecond = 1000.0;
   /// The maximum frames per second to graph.
   static const double _maxFps = 60.0;
   /// The lowest acceptable frame rate
@@ -39,7 +39,7 @@ class FrameCounter
   /// The number of frames encountered.
   int _frames;
   /// The time when the current second has expired.
-  int _endTime;
+  double _endTime;
   /// The number of FPS timings to keep track of.
   int _historySize;
   /// Holds the historic record of FPS over time.
@@ -81,7 +81,7 @@ class FrameCounter
    */
   FrameCounter(String id, [int width = _defaultWidth, int height = _defaultHeight, int historySize = _defaultHistorySize])
     : _frames = 0
-    , _endTime = 0
+    , _endTime = 0.0
     , _historySize = historySize
     , _historicFps = new Queue<double>()
     , _canvasWidth = width
@@ -115,7 +115,7 @@ class FrameCounter
   /**
    * Retrieve the current frames per second calculation.
    */
-  double get fps => (_historicFps.length != 0) ? _historicFps.last() : 0.0;
+  double get fps => (_historicFps.length != 0) ? _historicFps.last : 0.0;
 
   /**
    * The width of the canvas.
@@ -190,7 +190,7 @@ class FrameCounter
    * This should be called once per frame with the associated [time]
    * in milliseconds.
    */
-  void update(int time)
+  void update(double time)
   {
     _frames++;
 

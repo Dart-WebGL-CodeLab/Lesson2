@@ -38,7 +38,7 @@ class Game
   /// Random number generator
   Random _randomGenerator;
   /// The time of the last frame
-  int _lastFrameTime;
+  double _lastFrameTime;
   /// The angle to rotate by
   double _angle;
 
@@ -179,7 +179,7 @@ class Game
     _color = new vec3(0.0, 0.0, 0.0);
     _direction = new vec3(1.0, 1.0, 1.0);
     _randomGenerator = new Random();
-    _lastFrameTime = 0;
+    _lastFrameTime = 0.0;
     _angle = 0.0;
 
     _createTransforms();
@@ -333,7 +333,7 @@ class Game
    * All game logic should be updated within this method.
    * Any animation should be based upon the current [time].
    */
-  void update(int time)
+  void update(double time)
   {
     // Get the change in time
     double dt = (time - _lastFrameTime) * 0.001;
@@ -485,7 +485,7 @@ class Game
    *
    * The current [time] is passed in.
    */
-  static void onUpdate(int time)
+  static void onUpdate(double time)
   {
     _gameInstance.update(time);
     _gameInstance.draw();

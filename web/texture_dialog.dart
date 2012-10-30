@@ -294,7 +294,9 @@ class TextureDialog
    */
   void _writeFile(String fileName, Blob data)
   {
-    _fileSystem.root.getFile(fileName, { 'create': true }, (fileEntry) {
+    Map options = { 'create': true };
+
+    _fileSystem.root.getFile(fileName, options: { 'create': true }, successCallback: (fileEntry) {
       fileEntry.createWriter((fileWriter) {
         fileWriter.on.writeEnd.add((_) {
           String url = fileEntry.toURL();
@@ -310,6 +312,6 @@ class TextureDialog
 
         fileWriter.write(data);
       });
-    }, _onFileSystemError);
+    }, errorCallback: _onFileSystemError);
   }
 }
