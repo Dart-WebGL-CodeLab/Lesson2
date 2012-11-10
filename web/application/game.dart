@@ -38,10 +38,6 @@ class Game
   vec3 _direction;
   /// Random number generator
   Random _randomGenerator;
-  /// The time of the last frame
-  double _lastFrameTime;
-  /// The angle to rotate by
-  double _angle;
 
   //---------------------------------------------------------------------
   // Transform variables
@@ -177,8 +173,6 @@ class Game
     _color = new vec3(0.0, 0.0, 0.0);
     _direction = new vec3(1.0, 1.0, 1.0);
     _randomGenerator = new Random();
-    _lastFrameTime = 0.0;
-    _angle = 0.0;
 
     _createTransforms();
     _createShaders();
@@ -334,18 +328,6 @@ class Game
    */
   void update(double time)
   {
-    // Get the change in time
-    double dt = (time - _lastFrameTime) * 0.001;
-    _lastFrameTime = time;
-
-    // Rotate the model
-    double angle = dt * PI;
-
-    mat4 rotation = new mat4.rotationX(angle);
-    _modelMatrix.multiply(rotation);
-
-    _modelMatrix.copyIntoArray(_modelMatrixArray);
-
     for (int i = 0; i < 3; ++i)
     {
       // Add a random difference
@@ -422,29 +404,7 @@ class Game
    */
   set mesh(String value)
   {
-    int meshResource = _resourceManager.registerResource(value);
 
-    _resourceManager.addEventCallback(meshResource, ResourceEvents.TypeUpdate, (type, resource) {
-      MeshResource mesh = resource;
-
-      // Get the description of the layout
-      var elements = [
-        InputLayoutHelper.inputElementDescriptionFromMesh(new InputLayoutDescription('vPosition', 0, 'POSITION' ), mesh),
-        InputLayoutHelper.inputElementDescriptionFromMesh(new InputLayoutDescription('vTexCoord', 0, 'TEXCOORD0'), mesh)
-      ];
-
-      _graphicsDevice.configureDeviceChild(_meshInputLayout, { 'elements': elements });
-      _graphicsDevice.configureDeviceChild(_meshInputLayout, { 'shaderProgram': _shaderProgram });
-
-      // Get the number of indices
-      _meshIndexCount = mesh.numIndices;
-
-      // Update the contents of the buffer
-      _context.updateBuffer(_meshVertexBuffer, mesh.vertexArray);
-      _context.updateBuffer(_meshIndexBuffer, mesh.indexArray);
-    });
-
-    _resourceManager.loadResource(meshResource);
   }
 
   /**
@@ -452,15 +412,7 @@ class Game
    */
   set texture(String value)
   {
-    int textureResource = _resourceManager.registerResource(value);
 
-    _resourceManager.addEventCallback(textureResource, ResourceEvents.TypeUpdate, (type, resource) {
-      print('texture loaded: ${_texture}');
-      _context.updateTexture2DFromResource(_texture, textureResource, _resourceManager);
-      _context.generateMipmap(_texture);
-    });
-
-    _resourceManager.loadResource(textureResource);
   }
 
   //---------------------------------------------------------------------
