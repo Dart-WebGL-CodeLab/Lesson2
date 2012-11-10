@@ -219,6 +219,7 @@ class Game
     _modelMatrix = new mat4.identity();
 
     _modelMatrixArray = new Float32Array(16);
+    _modelMatrix.copyIntoArray(_modelMatrixArray);
   }
 
   /**

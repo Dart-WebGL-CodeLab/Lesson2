@@ -3,4 +3,5 @@ Dart WebGL Class Lesson 2
 
 Tasks
 -----
-* First
+* Load mesh data
+* Rotate cube around its axis
