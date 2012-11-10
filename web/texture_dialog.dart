@@ -1,3 +1,4 @@
+part of webgl_lab;
 
 /// Callback type for when the value is submitted
 typedef void SubmitEvent(String value);

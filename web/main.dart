@@ -7,6 +7,8 @@
 // and imported with the package prefix.
 //---------------------------------------------------------------------
 
+library webgl_lab;
+
 import 'dart:html';
 import 'dart:math';
 import 'package:spectre/spectre.dart';
@@ -77,28 +79,28 @@ void _initModelButtons()
   assert(cubeMesh != null);
 
   cubeMesh.on.click.add((_) {
-    _onModelChange('/meshes/cube.mesh');
+    _onModelChange('web/resources/meshes/cube.mesh');
   });
 
   DivElement sphereMesh = document.query('#sphere_button') as DivElement;
   assert(sphereMesh != null);
 
   sphereMesh.on.click.add((_) {
-    _onModelChange('/meshes/sphere.mesh');
+    _onModelChange('web/resources/meshes/sphere.mesh');
   });
 
   DivElement planeMesh = document.query('#plane_button') as DivElement;
   assert(planeMesh != null);
 
   planeMesh.on.click.add((_) {
-    _onModelChange('/meshes/plane.mesh');
+    _onModelChange('web/resources/meshes/plane.mesh');
   });
 
   DivElement cylinderMesh = document.query('#cylinder_button') as DivElement;
   assert(cylinderMesh != null);
 
   cylinderMesh.on.click.add((_) {
-    _onModelChange('/meshes/cylinder.mesh');
+    _onModelChange('web/resources/meshes/cylinder.mesh');
   });
 }
 

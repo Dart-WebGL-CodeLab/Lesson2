@@ -1,3 +1,4 @@
+part of webgl_lab;
 
 class Game
 {
@@ -161,9 +162,6 @@ class Game
     // Setup the resource manager
     _resourceManager = new ResourceManager();
 
-    String baseUrl = "${window.location.href.substring(0, window.location.href.length - "engine.html".length)}web/resources";
-    _resourceManager.setBaseURL(baseUrl);
-
     // Create the viewport
     var viewportProperties = {
       'x': 0,
@@ -234,7 +232,7 @@ class Game
     // Create the vertex shader
     _vertexShader = _graphicsDevice.createVertexShader('Texture Vertex Shader', {});
 
-    int vertexShaderResource = _resourceManager.registerResource('/shaders/simple_texture.vs');
+    int vertexShaderResource = _resourceManager.registerResource('web/resources/shaders/simple_texture.vs');
 
     _resourceManager.addEventCallback(vertexShaderResource, ResourceEvents.TypeUpdate, (type, resource) {
       _context.compileShaderFromResource(_vertexShader, vertexShaderResource, _resourceManager);
@@ -246,7 +244,7 @@ class Game
     // Create the fragment shader
     _fragmentShader = _graphicsDevice.createFragmentShader('Texture Fragment Shader', {});
 
-    int fragmentShaderResource = _resourceManager.registerResource('/shaders/simple_texture.fs');
+    int fragmentShaderResource = _resourceManager.registerResource('web/resources/shaders/simple_texture.fs');
 
     _resourceManager.addEventCallback(fragmentShaderResource, ResourceEvents.TypeUpdate, (type, resource) {
       _context.compileShaderFromResource(_fragmentShader, fragmentShaderResource, _resourceManager);
@@ -416,7 +414,7 @@ class Game
   //---------------------------------------------------------------------
 
   /// Retrieves the instance of [Game].
-  static get instance() => _gameInstance;
+  static Game get instance => _gameInstance;
 
   /**
    * Sets the mesh to display.
@@ -476,8 +474,8 @@ class Game
     _gameInstance = new Game('#webgl_host');
 
     // Set the mesh and associated texture
-    _gameInstance.texture = '/textures/dart_tex.png';
-    _gameInstance.mesh = '/meshes/cube.mesh';
+    _gameInstance.texture = 'web/resources/textures/dart_tex.png';
+    _gameInstance.mesh = 'web/resources/meshes/cube.mesh';
   }
 
   /**

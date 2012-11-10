@@ -1,3 +1,4 @@
+part of webgl_lab;
 
 /**
  * Keeps track of the number of frames per second.
